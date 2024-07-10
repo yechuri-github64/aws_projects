@@ -1,0 +1,87 @@
+Basic concepts covered in project pdf 
+some of important topic
+here...... 
+Amazon S3 Storage Classes:
+      Amazon S3 offers various storage classes tailored to meet different performance, access, resiliency, and cost needs for your workloads.
+
+1. S3	standard
+2. S3 Intelligent-Tiering
+3. S3 Express One Zone
+4. S3 Standard-Infrequent Access
+5. S3 One Zone-Infrequent Access (S3 One Zone-IA) 
+6. S3 Glacier Instant Retrieval
+7. S3 Glacier Flexible Retrieval (formerly S3 Glacier)
+8. S3 Glacier Deep Archive (S3 Glacier Deep Archive) 
+
+S3 STANDARD:-
+     -> General purpose storage for frequently accessed data(more than once a month)(acess with milliseconds)
+     -> Low latency and high throughput performance
+        Designed to deliver 99.99% availability with an availability SLA of 99.9%
+S3 INTELLIGENT-TIERING:-
+     -> data with unknow like changing or unpredictable acesss pattern
+     -> Automatic cost savings for data with unknown or changing access patterns.
+     -> Objects smaller than 128KB can be stored in S3 Intelligent-Tiering but will always be charged at the Frequent Access tier rates, and are not charged the monitoring and automation charge.
+     -> For a small monthly fee, S3 Intelligent-Tiering monitors your data access patterns and automatically moves objects to lower-cost storage tiers when they are not accessed. It uses three tiers:
+           Frequent Access (for regularly accessed data)
+           Infrequent Access (40% cheaper, for data not accessed in 30 days)
+           Archive Instant Access (68% cheaper, for data not accessed in 90 days)
+        Additionally, for data not accessed for 180 days or more, you can set it to move to the Deep Archive Access tier, saving up to 95% on storage costs.
+S3 EXPRESS ONE ZONE:-
+      -> High performance storage for your most frequently accessed data.
+			-> Purpose-built to deliver consistent single-digit millisecond data access for your most frequently accessed data and latency-sensitive applications.
+	    -> Improve access speeds by 10x and reduce request costs by 50% compared to S3 Standard
+      -> S3 Express One Zone with services such as Amazon SageMaker Model Training, Amazon Athena, Amazon EMR, and AWS Glue Data Catalog to accelerate your ML and analytics workloads.
+			-> Scale to handle millions of requests per minute
+S3 STANDARD-INFREQUENT ACCESS:-
+      ->  data that is accessed less frequently, but requires rapid access when needed millisecond access
+      ->  Same low latency and high throughput performance of S3 Standard
+S3 ONE ZONE-INFREQUENT ACCESS (S3 ONE ZONE-IA):-
+      -> Unlike other S3 Storage Classes which store data in a minimum of three Availability Zones (AZs), S3 One Zone-IA stores data in a single AZ and costs 20% less than S3 Standard-IA.
+      -> who want a lower-cost option for infrequently accessed data but do not require the availability and resilience of S3 Standard or S3 Standard-IA.
+      -> Same low latency and high throughput performance of S3 Standard
+S3 GLACIER INSTANT RETRIEVAL:-
+      -> Long-lived archive data that is accessed a few times per year with instant retrievals
+      -> Data retrieval in milliseconds with the same performance as S3 Standard
+      -> With S3 Glacier Instant Retrieval, you can save up to 68% on storage costs compared to using the S3 Standard-Infrequent Access (S3 Standard-IA) storage class
+S3 GLACIER FLEXIBLE RETRIEVAL (Formerly S3 Glacier):-
+      -> up to 10% lower cost (than S3 Glacier Instant Retrieval), for archive data that is accessed 1—2 times per year and is retrieved asynchronously
+      -> Configurable retrieval times, from minutes to hours, with free bulk retrievals
+      -> Backup and archive data that is rarely accessed and low cost
+S3 GLACIER DEEP ARCHIVE:-
+      -> Archive data that is very rarely accessed and very low cost
+      -> can be restored within 12 hours
+      -> supports long-term retention and digital preservation for data that may be accessed once or twice in a year
+
+Protecting Objects with encryption:-
+Data protection refers to protecting data while it's in transit(sending data(objects) from aws s3) and at rest (storing our objects in aws s3  data centers).
+You can protect data 
+    ->in transit by using Secure Socket Layer/Transport Layer Security (SSL/TLS) or client-side encryption.
+		->at rest Amazon S3 protect data options
+        1.Server-side encryption(let assume SSE)
+              Amazon S3 encrypts your objects before saving them on disks in AWS data centers and then decrypts the objects when you download them.
+               encryption type:-
+                   1. SSE With Amazon S3 managed keys (SSE-S3):-
+                      All new object uploads to Amazon S3 buckets are encrypted by default with server-side encryption with Amazon S3 managed keys (SSE-S3).
+                      Amazon S3 encrypts each object with a unique key. As an additional safeguard, it encrypts the key itself with a key that it rotates regularly.
+                      There are no additional fees for using server-side encryption with Amazon S3 managed keys (SSE-S3).
+									2. SSE with AWS Key Management Service (AWS KMS) keys:-
+                       >-Use AWS Key Management Service (AWS KMS) keys to manage the encryption of your data in Amazon S3.
+                  3. SSE with customer-provided keys:-
+                       ->Server-side encryption encrypts only the object data, not the object metadata.
+                       ->you can store your data encrypted with your own encryption keys.
+                       ->With the encryption key you provide, Amazon S3 handles data encryption and decryption automatically. You just need to manage your encryption keys.
+                       ->When you upload an object, S3 encrypts it with AES-256 and removes the key from memory. To retrieve the object, provide the same key, and S3 will decrypt it and return the data to you
+				2. DSSE-KMS(Dual-layer server-side encryption with AWS KMS keys):-
+		          ->  applies two layers of encryption to objects when they are uploaded to Amazon.
+              -> When you use DSSE-KMS with an Amazon S3 bucket, the AWS KMS keys must be in the same Region as the bucket. Additionally, when DSSE-KMS is requested for an object, the S3 checksum in the object's metadata is stored in encrypted form. For more information about checksums.
+        3. Client-side encryption
+               -> Client-side encryption is the act of encrypting your data locally to help ensure its security in transit and at rest (both transit  and rest data encryption done by yourself)
+
+
+
+What is a presigned URL?
+When you need to temporarily and securely share an object with a person or group of people, you can create a presigned URL.
+A presigned URL is generated by an AWS user who has access to the object. When you create the URL, you must configure how long the URL will be valid. Then, you can share this URL with the users who will get access to the object.
+
+Bucket policies for Amazon S3
+A bucket policy is a resource-based policy that you can use to grant access permissions to your Amazon S3 bucket and the objects in it. Only the bucket owner can associate a policy with a bucket. The permissions attached to the bucket apply to all of the objects in the bucket that are owned by the bucket owner. 
